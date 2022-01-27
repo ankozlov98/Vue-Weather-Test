@@ -1,29 +1,18 @@
 <script setup>
+
 </script>
 
 <template>
   <article
     id="app"
     :class="
-      typeof weather.main != 'undefined' && weather.main.temp > 16 ? 'warm' : ''
+      typeof weather.main != 'undefined' && weather.main.temp > 16 ? 'warm' : 'cold'
     "
   >
     <main>
       <SearchBar :onSearch='onSearch'/>
-
-      <section class="weather-wrap" v-if="typeof weather.main != 'undefined'">
-        <section class="location-box">
-          <section class="location">
-            {{ weather.name }}, {{ weather.sys.country }}
-          </section>
-          <section class="date">{{ dateBuilder() }}</section>
-        </section>
-
-        <section class="weather-box">
-          <section class="temp">{{ Math.round(weather.main.temp) }}°C</section>
-          <section class="weather">{{ weather.weather[0].main }}</section>
-        </section>
-      </section>
+      <WeatherBox :weather="weather"/>
+      
     </main>
   </article>
 </template>
@@ -31,12 +20,13 @@
 <script>
 
 import SearchBar from './components/SearchBar.vue' 
-
+import WeatherBox from './components/WeatherBox.vue'
 
 export default {
   name: "app",
   components: {
-    SearchBar
+    SearchBar,
+    WeatherBox
   },
 
   data() {
@@ -68,40 +58,7 @@ export default {
 
     setResponse(res) {
       this.weather = res;
-    },
-    dateBuilder() {
-      let d = new Date();
-      const months = [
-        "January",
-        "February",
-        "March",
-        "April",
-        "May",
-        "June",
-        "July",
-        "August",
-        "September",
-        "October",
-        "November",
-        "December",
-      ];
-      const days = [
-        "Sunday",
-        "Monday",
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday",
-        "Saturday",
-      ];
-
-      let day = days[d.getDay()];
-      let date = d.getDate();
-      let month = months[d.getMonth()];
-      let year = d.getFullYear();
-
-      return ` ${day} ${date} ${month} ${year}`;
-    },
+    },   
   },
 };
 </script>
@@ -110,7 +67,7 @@ export default {
 @import "./assests/styles/main-styles.css";
 @import "./assests/styles/weather-styles.css";
 
-#app {
+#app.cold {
   background-image: url("./assests/cold-bg.jpg");
 }
 
