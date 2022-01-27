@@ -52,7 +52,7 @@ export default {
         .then((res) => {
           return res.json();
         })
-        .then(this.setResponse);
+        .then((res) => this.weather = res)
     },
 
 
